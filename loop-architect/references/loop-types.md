@@ -2,6 +2,13 @@
 
 Named patterns. Classify the user's task here first — it tells you the verifier, the blast radius, and the safe autonomy level before you design anything.
 
+## Contents
+
+- Strong-verifier loops — start here
+- Strong verifier, high blast radius — gate the action
+- Weak verifier, low blast radius — drafter only
+- Do not loop
+
 **If the task doesn't match one of these, that is a signal.** Say so: unnamed loops usually mean the verifier hasn't been found yet.
 
 ---
@@ -89,7 +96,8 @@ Named patterns. Classify the user's task here first — it tells you the verifie
 
 ### Code-review loop
 **Goal:** comment on PRs.
-**Verifier:** weak (T5). AI review comments get acted on far less often than human ones.
+**Verifier:** weak (T5). AI review comments can create human-noise risk even when they are technically plausible.
+**Evidence:** claims about acceptance/action rates need citations before use in public talks or docs.
 **Blast radius:** low on code, **high on humans** (noise → the team ignores the bot → they miss the real one).
 **Autonomy:** **advisory only.** It must not be able to block or approve a merge. Anything that *gates* should gate on the deterministic engine's output, never the model's opinion.
 
@@ -98,12 +106,24 @@ Named patterns. Classify the user's task here first — it tells you the verifie
 **Verifier:** none — but it's **read-only**, so it's safe.
 **Autonomy:** unattended for *reading*, never for *writing*. Parallelize freely; reads don't collide.
 
+### Data-cleaning proposal loop
+**Goal:** find likely bad rows, duplicates, schema drift, or normalization candidates.
+**Verifier:** deterministic checks for format/schema/ranges (T1–T2); semantic correctness is weak.
+**Autonomy:** L1–L2. Propose patches or review queues; do not overwrite source data unattended.
+**Watch:** a clean-looking dataset can still be wrong. Keep raw data immutable and make transformations replayable.
+
+### Content QA loop
+**Goal:** check docs, support content, or knowledge-base pages for broken links, stale references, missing metadata, and style-rule violations.
+**Verifier:** link checker, build, lint rules, freshness checks (T1–T2); factual correctness remains weak.
+**Autonomy:** L2. Draft PRs and flag uncertain claims for human review.
+**Watch:** do not let the loop silently "fix" facts it cannot verify.
+
 ---
 
 ## 🔴 Do not loop
 
 ### Production-incident "self-healing" loop
-**Verifier:** none. The system is already degraded, the safety margin is already spent, and there may be no rollback. Agents score in the low teens on end-to-end incident benchmarks.
+**Verifier:** none for correctness. The system is already degraded, the safety margin is already spent, and there may be no rollback. Public incident-response benchmarks remain an active area; cite the exact benchmark before using a numeric score.
 **Autonomy:** **READ-ONLY.** Investigate, correlate, rank hypotheses, build the timeline, draft the postmortem. **Write actions only via pre-authorized, narrow, reversible runbooks.**
 
 ### Requirements-authoring loop

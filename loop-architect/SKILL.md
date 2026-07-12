@@ -16,12 +16,24 @@ Your job is not to be encouraging. **Your job is to find the verifier, or to ref
 
 ---
 
+## Modes
+
+Choose the mode from the user's request:
+
+- **Design mode** — create a new loop design from a vague automation idea.
+- **Audit mode** — evaluate an existing `LOOP.md`, workflow, `/goal`, cron job, agent script, or proposed loop. Do not redesign first; score what exists, name blockers, then recommend the smallest upgrade.
+- **Upgrade mode** — improve a weak loop by strengthening its verifier, reducing blast radius, adding state, or lowering rollout level.
+
+When the user asks "is this safe?", "can this run unattended?", "what is missing?", or gives an existing loop spec, use **Audit mode**.
+
+---
+
 ## Workflow
 
 Run in order. **Do not skip Step 2.** Ask one or two questions at a time — never dump the whole interview.
 
 ### Step 1 — Understand and classify
-Get a plain description of the work and how often it recurs. Classify it against `references/loop-types.md`. **If it matches no known type, say so** — an unnamed loop usually means the verifier hasn't been found yet.
+Get a plain description of the work and how often it recurs. In Audit mode, first identify the existing trigger, actor, verifier, permissions, state, and current rollout level. Classify the work against `references/loop-types.md`. **If it matches no known type, say so** — an unnamed loop often means the verifier hasn't been found yet.
 
 ### Step 2 — ✋ THE GATE: find the verifier (blocking)
 
@@ -49,7 +61,7 @@ Score the answer on the ladder in `references/verifier-patterns.md`:
 
 > **"Can the agent modify the thing that checks it?"**
 
-If the test files, the rubric, the CI config, or its own permissions are writable by the agent — **fix that before anything else.** The agent takes the cheapest path to green, and deleting the test is often the cheapest path. **Enforce immutability at the permission layer, not in the prompt.** *(Stronger models do this more, not less.)*
+If the test files, the rubric, the CI config, or its own permissions are writable by the agent — **fix that before anything else.** The agent takes the cheapest path to green, and deleting the test is often the cheapest path. **Enforce immutability at the permission layer, not in the prompt.** More capable models may find shortcuts more reliably when the verifier is writable or underspecified.
 
 ### Step 3 — Decide whether to loop at all
 
@@ -82,10 +94,10 @@ A loop is a control system. Get all of these. An unanswered one is a named failu
 | **Latency-to-detection** — how far can a mistake travel before a human sees it? | the master metric |
 
 ### Step 5 — Score it
-Run `references/readiness-checklist.md`. Report the **score, the blockers, and the ceiling** — plainly. Blast radius caps the ceiling regardless of score.
+Run `references/readiness-checklist.md`. Report the **score, the blockers, and the ceiling** — plainly. Blast radius caps the ceiling regardless of score. In Audit mode, score the loop as-is before proposing upgrades.
 
 ### Step 6 — Produce the artifacts
-Write **`LOOP.md`** and **`VERIFIER.md`** (always). Add `STATE.md`, `BUDGET.md`, `ESCALATION.md` when the loop warrants them. Templates: `assets/templates/`. Guidance: `references/templates.md`.
+In Design or Upgrade mode, write **`LOOP.md`** and **`VERIFIER.md`** (always). Add `STATE.md`, `BUDGET.md`, `ESCALATION.md` when the loop warrants them. In Audit mode, produce **`AUDIT.md`** first: verdict, readiness score, rollout ceiling, blockers, weak spots, and minimal next changes. Templates: `assets/templates/`. Guidance: `references/templates.md`.
 
 ### Step 7 — Mark the weak spots honestly
 Do not soften these. Flag, where true:
@@ -140,6 +152,7 @@ Some tools implement a loop as a *worker model* plus an *evaluator model that re
 - `references/readiness-checklist.md` — the scored self-audit
 - `references/examples.md` — worked designs **and two refusals**
 - `references/product-loop-notes.md` — tool-specific cautions (cited)
+- `references/evidence.md` — citation hygiene and claims that need verification
 - `references/loop-principles.md` — the reasoning behind the workflow
 - `references/templates.md` — how to fill the outputs
-- `assets/templates/` — `LOOP.md`, `VERIFIER.md`, `STATE.md`, `BUDGET.md`, `ESCALATION.md`
+- `assets/templates/` — `AUDIT.md`, `LOOP.md`, `VERIFIER.md`, `STATE.md`, `BUDGET.md`, `ESCALATION.md`

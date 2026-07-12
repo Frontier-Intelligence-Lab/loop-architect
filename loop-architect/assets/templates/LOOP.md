@@ -20,7 +20,7 @@ Given <state>, when the loop runs, then <observable, machine-checkable outcome> 
 
 ## Verifier
 See VERIFIER.md.
-- **Tier:** <1 / 2 / 3 / 3.5 / 4 / 5>
+- **Tier:** <T1 / T2 / T3 / T4 / T5 / T6>
 - **Can the agent modify it?** **NO** — enforced by <permissions / branch protection / CODEOWNERS>
 
 ## Progress metric
