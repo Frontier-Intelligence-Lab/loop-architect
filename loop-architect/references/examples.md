@@ -53,7 +53,7 @@ L3. Promote to L4 when the verifier has correctly rejected >=1 misclassification
 
 **The gate.** *"What proves the bump is safe?"* → *"Build + full test suite in CI."* **T1.** Proceed.
 
-**But name the blind spot:** a green suite **does not detect a malicious package.** That's not a hypothetical — bot-opened malicious dependency PRs have been auto-merged in the wild.
+**But name the blind spot:** a green suite **does not detect a malicious package.** That's not a hypothetical — auto-merging bot-opened dependency PRs on a green build is a documented supply-chain risk, not a theoretical one.
 
 **Design decision:** the verifier is strong, the blast radius is high → 🟡 **gate the action.**
 
@@ -135,7 +135,7 @@ Never let the transcript judge be the merge gate.
 **The gate.** *"What proves the fix worked?"* → *"The alert clears."*
 That sounds like a verifier. **It isn't.** The alert clearing proves the *symptom* stopped — not that the cause was fixed, and not that nothing else broke. Restarting a service clears the alert too.
 
-**Verifier: T6 for correctness.** **Blast radius: maximal** — the system is already degraded, the safety margin is already spent, and there may be no rollback. Agents score in the low teens on end-to-end incident benchmarks.
+**Verifier: T6 for correctness.** **Blast radius: maximal** — the system is already degraded, the safety margin is already spent, and there may be no rollback. Agents perform poorly on end-to-end incident-response benchmarks.
 
 **Grid position: 🔴 weak verifier + high blast radius → DO NOT LOOP.**
 

@@ -89,7 +89,7 @@ Named patterns. Classify the user's task here first — it tells you the verifie
 
 ### Code-review loop
 **Goal:** comment on PRs.
-**Verifier:** weak (T5). AI review comments get acted on far less often than human ones.
+**Verifier:** weak (T5). AI review comments tend to get acted on less often than human ones.
 **Blast radius:** low on code, **high on humans** (noise → the team ignores the bot → they miss the real one).
 **Autonomy:** **advisory only.** It must not be able to block or approve a merge. Anything that *gates* should gate on the deterministic engine's output, never the model's opinion.
 
@@ -103,7 +103,7 @@ Named patterns. Classify the user's task here first — it tells you the verifie
 ## 🔴 Do not loop
 
 ### Production-incident "self-healing" loop
-**Verifier:** none. The system is already degraded, the safety margin is already spent, and there may be no rollback. Agents score in the low teens on end-to-end incident benchmarks.
+**Verifier:** none. The system is already degraded, the safety margin is already spent, and there may be no rollback. Agents perform poorly on end-to-end incident-response benchmarks.
 **Autonomy:** **READ-ONLY.** Investigate, correlate, rank hypotheses, build the timeline, draft the postmortem. **Write actions only via pre-authorized, narrow, reversible runbooks.**
 
 ### Requirements-authoring loop

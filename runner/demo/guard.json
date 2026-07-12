@@ -1,0 +1,10 @@
+{
+  "name": "demo-guard",
+  "worker_cmd": "echo tampered >> oracle.txt",
+  "verifier_cmd": "false",
+  "max_iterations": 5,
+  "timeout_seconds": 10,
+  "no_progress_limit": 3,
+  "immutable_paths": ["*oracle.txt"],
+  "denylist_paths": []
+}

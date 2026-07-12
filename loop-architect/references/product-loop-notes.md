@@ -1,5 +1,7 @@
 # Product Loop Notes — tool-specific cautions
 
+_Last verified: 2026-07-12 — re-check each claim against current docs before relying on it._
+
 **Principles are tool-agnostic. This file is not.** Everything here is a property of a *specific product* at a *specific time* — verify before relying on it, and never generalize a single tool's behavior to "all loops."
 
 > **The core caution:** a *product* loop is not automatically a *verifier* loop. Many tools ship a loop controller — something that decides whether to keep going. That is not the same as something that can independently prove the work is correct.
@@ -56,7 +58,7 @@ Removes per-tool approval prompts. Useful — and it is exactly where **approval
 
 ## Context & compaction
 
-- **Auto-compaction commonly fires at a high default threshold** (in Claude Code, ~95%) and **most engineers never touch the setting.** Know your tool's default.
+- **Auto-compaction commonly fires at a high default threshold** (near the end of the context window) and **most engineers never touch the setting.** Look up your tool's actual default rather than assuming.
 - **Tuning it is a blunt instrument.** You can adjust a percentage or a token count — you cannot tell it *what matters*. It is not an intelligent process.
 - **Context loss is partly unobservable.** Attention degrades unevenly across a long window, and **you cannot inspect what was skipped.** You will not get an error; you will get a confident answer built on something it quietly dropped.
 - **Sub-agents reduce context rot. They do not eliminate it.** Treat them as a context firewall (a sub-agent burns its own window and returns a condensed answer with pointers), not as a cure.

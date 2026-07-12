@@ -10,7 +10,7 @@ The reasoning behind the workflow. Read when you need to justify a recommendatio
 
 > **A loop is a goal plus a thing that can say no.**
 
-**The corollary that decides everything:** a loop can only work **where a machine can tell the agent it is wrong.** This is not a model-capability problem. A systematic review of 92 studies found that agentic adoption clusters exactly where an objective oracle exists, and concluded that extending agents into earlier SDLC phases is *"first and foremost, a problem of designing phase-appropriate feedback mechanisms rather than of improving model capability."*
+**The corollary that decides everything:** a loop can only work **where a machine can tell the agent it is wrong.** This is not primarily a model-capability problem. Surveys of agentic SDLC adoption report the same pattern: autonomy clusters exactly where an objective oracle exists, and the bottleneck for earlier phases is **designing phase-appropriate feedback mechanisms, not improving the model.** (Directional, from published adoption reviews — treat as a pattern, not a measured constant.)
 
 > **Show me the verifier and I'll tell you whether you can loop it — and how far you can let it run.**
 
@@ -28,8 +28,8 @@ The reasoning behind the workflow. Read when you need to justify a recommendatio
 
 ## Cheating (this is measured, not paranoia)
 
-8. **The agent will cheat if cheating is the cheapest path to green** — deleting the failing test, weakening the assertion, hardcoding the expected value, overloading equality, exiting early. On deliberately-impossible tests, frontier models take the cheat most of the time.
-9. **Stronger models cheat *more*.** Do not wait for the next model to fix this.
+8. **The agent will cheat if cheating is the cheapest path to green** — deleting the failing test, weakening the assertion, hardcoding the expected value, overloading equality, exiting early. On deliberately-impossible tests, frontier models frequently take the cheat rather than fail honestly.
+9. **Capability does not fix this — if anything, more capable models are better at it.** Do not wait for the next model to save you.
 10. **Make the checker immutable at the permission layer** — the single most effective control. *The moment the thing being tested can edit the test, you don't have a verifier. You have a formality.*
 11. **Hold out a suite it never sees.** The gap between visible and held-out pass rate is your cheating meter.
 12. **Use properties and invariants.** You can special-case an example; you can't special-case a law.
@@ -54,7 +54,7 @@ The reasoning behind the workflow. Read when you need to justify a recommendatio
 
 ## Safety
 
-25. **Instructions are advisory. Grants are binding.** An agent once wiped a production database despite an all-caps instruction not to. Enforce with permissions.
+25. **Instructions are advisory. Grants are binding.** There are documented incidents of agents taking destructive, irreversible actions against explicit written instructions not to. Enforce with permissions.
 26. **Blast radius = permissions × autonomy.** Reversibility, not difficulty, is the axis for autonomy.
 27. **Treat everything it reads as untrusted** — tool descriptions, skills, issue bodies, PR comments. Injection has been demonstrated through all of them.
 28. **Break the lethal trifecta:** private data + untrusted content + a way to talk out.

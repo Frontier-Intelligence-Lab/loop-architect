@@ -64,7 +64,7 @@ Each item is 1 point. **A ✋ item is a hard blocker: if it fails, the loop cann
 | 13–18 | Viable, but supervised | **L2 — draft PR** |
 | 19–23 | Sound design | **L3 — act with approval** |
 | 24–26 | Strong | **L4 — act and notify** |
-| **27–28 + T1 verifier + low blast radius** | Ready for unattended | **L5** |
+| **27–29 + T1 verifier + low blast radius** | Ready for unattended | **L5** |
 
 **Two overrides, applied after scoring:**
 
@@ -75,7 +75,7 @@ Each item is 1 point. **A ✋ item is a hard blocker: if it fails, the loop cann
 
 ## Report it like this
 
-> **Loop Readiness: 21/28 — L3 (act with approval)**
+> **Loop Readiness: 21/29 — L3 (act with approval)**
 >
 > **Blockers:** none.
 > **Weak spots:** no held-out suite (−1); no progress metric (−1); blind spot undocumented (−1).

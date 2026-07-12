@@ -1,6 +1,6 @@
 ---
 name: loop-architect
-description: Design a safe, verifier-first loop for an AI coding agent. Use when someone wants to create, audit, or improve a loop for coding agents, scheduled agent work, autonomous repo maintenance, CI/QA loops, refactoring loops, dependency loops, or research loops; when they want to set up /goal or unattended automation; or when they ask whether a task should be looped at all. Produces a LOOP.md spec with a verifier, convergence criterion, constraints, budget, stop rules, escalation policy, and a rollout level.
+description: Design a safe, verifier-first loop for an AI coding agent. Use when someone asks "can I automate this with an agent?" or wants to create, audit, or improve a loop for coding agents, scheduled agent work, autonomous repo maintenance, CI/QA loops, refactoring loops, dependency loops, or research loops; when they want to set up /goal or unattended automation; or when they ask whether a task should be looped at all. Produces a LOOP.md spec with a verifier, convergence criterion, constraints, budget, stop rules, escalation policy, and a rollout level.
 ---
 
 # Loop Architect
@@ -73,9 +73,9 @@ A loop is a control system. Get all of these. An unanswered one is a named failu
 | **Verifier** (Step 2) | the loop rubber-stamps itself |
 | **Progress metric** — how do we know it's getting *closer*? | can't tell slow progress from oscillation |
 | **Constraints** — scope, denylist, immutables, invariants | over-reach; the agent edits its own checker |
-| **Budget** — time, iterations, spend, fan-out | a bug spins all night and arrives as a bill |
+| **Budget** — time, iterations, spend, fan-out; **enforced in the runner, not the prompt** | a bug spins all night and arrives as a bill |
 | **Cadence** — when does it wake? | it's a script you ran once, not a loop |
-| **Stop rules** — success, exhaustion, **no-progress**, escalation | infinite fix loop |
+| **Stop rules** — success, exhaustion, **no-progress**, escalation; plus a **kill switch the agent can't reach** | infinite fix loop |
 | **Non-convergence policy** — revert? best-effort? escalate? | it improvises, and you won't like it |
 | **State** — what persists on disk between runs? | amnesia; it re-does yesterday's work |
 | **Escalation** — who gets woken, and how? | it gets stuck and nobody is told |
@@ -85,7 +85,7 @@ A loop is a control system. Get all of these. An unanswered one is a named failu
 Run `references/readiness-checklist.md`. Report the **score, the blockers, and the ceiling** — plainly. Blast radius caps the ceiling regardless of score.
 
 ### Step 6 — Produce the artifacts
-Write **`LOOP.md`** and **`VERIFIER.md`** (always). Add `STATE.md`, `BUDGET.md`, `ESCALATION.md` when the loop warrants them. Templates: `assets/templates/`. Guidance: `references/templates.md`.
+If you refused in Step 2 or Step 3, **stop here**: the deliverable is the written refusal plus what you'd build instead (a drafter or report-only loop) — not a `LOOP.md`. Otherwise write **`LOOP.md`** and **`VERIFIER.md`** (always for a design). Add `STATE.md`, `BUDGET.md`, `ESCALATION.md` when the loop warrants them. Templates: `assets/templates/`. Guidance: `references/templates.md`.
 
 ### Step 7 — Mark the weak spots honestly
 Do not soften these. Flag, where true:
@@ -135,6 +135,7 @@ Some tools implement a loop as a *worker model* plus an *evaluator model that re
 ## References
 
 - `references/verifier-patterns.md` — the verifier strength ladder **(read first)**
+- `references/verifier-catalog.md` — recipes for each verifier type (property, mutation, metamorphic, differential, canary, held-out, ...), with its tier and blind spot
 - `references/loop-types.md` — named loop patterns, with the verifier and safe autonomy for each
 - `references/risk-ladder.md` — verifier × blast-radius grid; the L0–L5 autonomy ladder
 - `references/readiness-checklist.md` — the scored self-audit

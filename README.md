@@ -25,7 +25,7 @@ Given a vague idea like *"can I have an agent keep our dependencies updated?"* o
 2. **Find the verifier** — and score it on a 6-tier strength ladder. *This step is a blocking gate.*
 3. **Decide whether it should be looped at all** (verifier strength × blast radius).
 4. **Force the missing answers** — convergence criterion, progress metric, constraints, budget, cadence, stop rules, escalation, state.
-5. **Score the design** — a readiness self-audit out of 28, which sets the rollout ceiling.
+5. **Score the design** — a readiness self-audit out of 29, which sets the rollout ceiling.
 6. **Produce `LOOP.md` and `VERIFIER.md`** you can commit.
 7. **Flag the weak spots honestly** — no real verifier, transcript-only evaluator, agent can edit its own tests, high blast radius.
 8. **Recommend a rollout level** — L0 manual → L5 unattended. Never starts you at the top.
@@ -90,21 +90,38 @@ L2. Never auto-merge into CI workflow files.
 ## What's inside
 
 ```
-loop-architect/
+loop-architect/                   THE SKILL (this is what you install)
   SKILL.md                        the workflow (lean, procedural)
   agents/openai.yaml              display metadata
   references/
     verifier-patterns.md          the verifier strength ladder  ← the core
+    verifier-catalog.md           recipes per verifier type (property, mutation, canary, …) + blind spots
     loop-types.md                 named loop patterns + safe autonomy for each
     risk-ladder.md                verifier × blast-radius grid; L0–L5 autonomy
-    readiness-checklist.md        scored self-audit (x/28 → a rollout ceiling)
+    readiness-checklist.md        scored self-audit (x/29 → a rollout ceiling)
     examples.md                   worked designs — and two refusals
-    product-loop-notes.md         tool-specific cautions (cited)
+    product-loop-notes.md         tool-specific cautions (cited, dated)
     loop-principles.md            the reasoning behind the workflow
     templates.md                  how to fill the outputs
   assets/templates/
     LOOP.md  VERIFIER.md  STATE.md  BUDGET.md  ESCALATION.md
+
+tools/loopcheck.py                deterministic checker — repo self-check AND `spec` mode for your LOOP.md
+Makefile                          `make check` (run loopcheck) · `make hooks` (install pre-push gate)
+.githooks/pre-push                blocks a push if loopcheck fails (zero-cost local CI)
+examples/                         copyable starter specs: dependency-update · flaky-test-triage · content-qa
+runner/looprun.py                 reference runner — enforces caps/no-progress/kill-switch/immutability IN CODE
+  runner/demo/                    three runnable demos (success · no-progress · guard-trip)
+evals/                            5 behavioral scenarios — the anti-softening guard (manual/scheduled, not a gate)
+adapters/                         thin, cited mappings of LOOP.md onto /goal · GitHub Actions · cron · Codex
+ci/                               GitHub Actions workflow, staged (move to .github/workflows/ when public)
 ```
+
+### The tooling, in one line each
+- **`make check`** — deterministic self-verification; the repo dogfoods its own doctrine (build the checker first).
+- **`python3 tools/loopcheck.py spec <LOOP.md>`** — validate *your* loop spec: verifier tier, four exits + kill switch, progress metric, immutability, a named blind spot.
+- **`python3 runner/looprun.py <config.json>`** — actually run a bounded loop with the controls enforced in code, not the prompt.
+- **`evals/`** — prove the skill still *behaves* (refuses when it should); catches semantic softening that the deterministic checks can't.
 
 **Principles are tool-agnostic. Every tool-specific claim lives only in `product-loop-notes.md`** — with a citation, so it can be checked when it goes stale. That boundary is why this skill won't rot.
 
