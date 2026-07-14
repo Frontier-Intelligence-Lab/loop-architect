@@ -1,0 +1,11 @@
+{
+  "name": "demo-converge",
+  "worker_cmd": "echo $(( $(cat counter.txt) + 1 )) > counter.txt",
+  "verifier_cmd": "test \"$(cat counter.txt)\" -ge 3",
+  "progress_cmd": "echo $(( 3 - $(cat counter.txt) ))",
+  "max_iterations": 10,
+  "timeout_seconds": 10,
+  "no_progress_limit": 3,
+  "immutable_paths": [],
+  "denylist_paths": []
+}

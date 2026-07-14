@@ -6,6 +6,18 @@
 
 The ladder is ordered by **independence**: how much of the evidence is produced by something *other than the agent being judged*.
 
+## Contents
+
+- T1 — Independent & deterministic
+- T2 — Deterministic but partial
+- T3 — Checker executes, model judges
+- T4 — Worker executes, raw output judged
+- T5 — Transcript-only judge
+- T6 — None
+- The two questions that decide everything
+- Anti-cheat checklist
+- Liveness check
+
 | Tier | Name | Who produces the evidence | Max autonomy |
 |---|---|---|---|
 | **T1** | Independent & deterministic | A machine, outside the agent | Unattended |
@@ -134,7 +146,7 @@ If yes, you don't have a verifier — you have a formality. **Fix this before an
 
 ## Anti-cheat checklist (apply to every design)
 
-The agent will take the cheapest path to green. Deleting the failing test is often the cheapest path — and **stronger models do this more, not less.** Design accordingly.
+The agent will take the cheapest path to green. Deleting the failing test is often the cheapest path — and more capable models may find these shortcuts more reliably when the verifier is writable or underspecified. Design accordingly.
 
 - [ ] Test / rubric / CI-config files are **read-only to the agent** — enforced by permissions, not instructions
 - [ ] A **held-out suite** exists that the agent never sees

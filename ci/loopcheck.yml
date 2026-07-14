@@ -1,0 +1,26 @@
+# Deterministic self-verification gate.
+# STAGED — not active. Move to .github/workflows/ to enable (public repo = free minutes).
+# See ci/README.md.
+name: loopcheck
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  loopcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Deterministic self-check (T1)
+        run: make check
+      - name: Validate every example spec
+        run: |
+          for d in examples/*/; do
+            echo "== $d =="
+            python3 tools/loopcheck.py spec "$d"
+          done

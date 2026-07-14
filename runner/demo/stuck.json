@@ -1,0 +1,10 @@
+{
+  "name": "demo-stuck",
+  "worker_cmd": "true",
+  "verifier_cmd": "false",
+  "max_iterations": 10,
+  "timeout_seconds": 10,
+  "no_progress_limit": 3,
+  "immutable_paths": [],
+  "denylist_paths": []
+}
