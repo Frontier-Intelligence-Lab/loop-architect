@@ -81,15 +81,28 @@ L2. Never auto-merge into CI workflow files.
 
 ## Install
 
-Clone this repo, then copy the skill folder into your agent's skills directory.
+### One line (recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Frontier-Intelligence-Lab/loop-architect/main/install.sh | sh
+```
+
+Downloads the latest release and installs the skill into `~/.claude/skills/`. Install elsewhere with `CLAUDE_SKILLS_DIR=~/.codex/skills` in front of the command. Restart your agent afterward so it picks up the new skill.
+
+> Prefer not to pipe to `sh`? Read [`install.sh`](install.sh) first, or use the manual steps below.
+
+### Manual
+
+Download `loop-architect-skill.zip` from the [latest release](https://github.com/Frontier-Intelligence-Lab/loop-architect/releases/latest) and unzip it into your skills directory:
+
+```bash
+unzip loop-architect-skill.zip -d ~/.claude/skills/
+```
+
+Or clone the repo and copy the skill folder:
 
 ```bash
 git clone https://github.com/Frontier-Intelligence-Lab/loop-architect.git
-```
-
-**Claude Code / Cowork**
-
-```bash
 mkdir -p ~/.claude/skills
 cp -R loop-architect/loop-architect ~/.claude/skills/
 ```
