@@ -17,4 +17,4 @@ runner" or "make the verifier immutable" becomes a concrete setting.
 | [`codex.md`](codex.md) | Worker harness | Wiring a Codex/CLI agent as the `worker_cmd` |
 
 The deeper, cited product cautions live in
-`../loop-architect/references/product-loop-notes.md`.
+`../skills/loop-architect/references/product-loop-notes.md`.

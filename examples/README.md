@@ -30,5 +30,5 @@ make check      # runs tools/loopcheck.py over the whole repo, examples included
 2. Then `LOOP.md` for the full control anatomy.
 3. Note the **Weak spots** and **Known blind spots** sections in each. A design that hides its blind spot is a delusion, not a loop.
 
-See `../loop-architect/references/examples.md` for the reasoning behind these, and two
+See `../skills/loop-architect/references/examples.md` for the reasoning behind these, and two
 worked **refusals** — the designs the skill declines to build.

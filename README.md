@@ -81,15 +81,32 @@ L2. Never auto-merge into CI workflow files.
 
 ## Install
 
-### One line (recommended)
+Pick whichever fits your setup — all three install the same skill.
+
+### `npx skills` (Claude Code · Codex · Cursor · Copilot · …)
+
+```bash
+npx skills add Frontier-Intelligence-Lab/loop-architect
+```
+
+Uses [`npx skills`](https://github.com/vercel-labs/skills), the open agent-skills tool. It reads the skill from `skills/loop-architect/` and installs it into your agent's skills directory.
+
+### Claude Code plugin marketplace
+
+```
+/plugin marketplace add Frontier-Intelligence-Lab/loop-architect
+/plugin install loop-architect@frontier-intelligence-lab
+```
+
+Native in-app install. `/plugin marketplace update` pulls new versions later.
+
+### `curl | sh` (any harness, no Node required)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Frontier-Intelligence-Lab/loop-architect/main/install.sh | sh
 ```
 
-Downloads the latest release and installs the skill into `~/.claude/skills/`. Install elsewhere with `CLAUDE_SKILLS_DIR=~/.codex/skills` in front of the command. Restart your agent afterward so it picks up the new skill.
-
-> Prefer not to pipe to `sh`? Read [`install.sh`](install.sh) first, or use the manual steps below.
+Downloads the latest release and installs into `~/.claude/skills/`. Install elsewhere with `CLAUDE_SKILLS_DIR=~/.codex/skills` in front of the command. Prefer not to pipe to `sh`? Read [`install.sh`](install.sh) first, or use the manual steps below.
 
 ### Manual
 
@@ -104,21 +121,12 @@ Or clone the repo and copy the skill folder:
 ```bash
 git clone https://github.com/Frontier-Intelligence-Lab/loop-architect.git
 mkdir -p ~/.claude/skills
-cp -R loop-architect/loop-architect ~/.claude/skills/
+cp -R loop-architect/skills/loop-architect ~/.claude/skills/
 ```
 
-Or install through your client's skill settings if it provides a skill picker.
+For **Codex**, copy into `~/.codex/skills/` instead; `agents/openai.yaml` supplies the display metadata.
 
-**Codex**
-
-```bash
-mkdir -p ~/.codex/skills
-cp -R loop-architect/loop-architect ~/.codex/skills/
-```
-
-`agents/openai.yaml` supplies the display metadata.
-
-**Any harness** — the skill is plain markdown. Point your agent at `loop-architect/SKILL.md`.
+**Any harness** — the skill is plain markdown. Point your agent at `skills/loop-architect/SKILL.md`. Restart your agent after installing so it picks up the new skill.
 
 ## Smoke test
 
@@ -141,7 +149,7 @@ Expected behavior:
 ## What's inside
 
 ```
-loop-architect/                   THE SKILL (this is what you install)
+skills/loop-architect/            THE SKILL (this is what you install)
   SKILL.md                        the workflow (lean, procedural)
   agents/openai.yaml              display metadata
   references/
@@ -167,6 +175,8 @@ runner/looprun.py                 reference runner — enforces caps/no-progress
 evals/                            5 behavioral scenarios — the anti-softening guard (manual/scheduled, not a gate)
 adapters/                         thin, cited mappings of LOOP.md onto /goal · GitHub Actions · cron · Codex
 ci/                               GitHub Actions workflow, staged (move to .github/workflows/ when public)
+install.sh                        the `curl | sh` one-line installer
+.claude-plugin/marketplace.json   Claude Code plugin-marketplace manifest (/plugin install)
 ```
 
 ### The tooling, in one line each

@@ -62,7 +62,7 @@ class Report:
 
 def run_repo_check(repo: Path) -> int:
     r = Report(str(repo))
-    skill = repo / "loop-architect"
+    skill = repo / "skills" / "loop-architect"
 
     def read(rel: str) -> str:
         p = repo / rel
@@ -92,7 +92,7 @@ def run_repo_check(repo: Path) -> int:
         r.err(f"{rel(loop_tpl)} contains '3.5' — phantom tier in the output template")
 
     # Check 2: readiness checklist denominator == real item count
-    text = read("loop-architect/references/readiness-checklist.md")
+    text = read("skills/loop-architect/references/readiness-checklist.md")
     if text:
         count = len(re.findall(r"^\s*- \[ \]", text, re.MULTILINE))
         band = re.search(r"(\d+)\s*[-–]\s*(\d+)\s*\+\s*T1 verifier", text)
@@ -109,7 +109,7 @@ def run_repo_check(repo: Path) -> int:
                 r.err(f"README.md advertises readiness denominator {n} but checklist has {count} items")
 
     # Check 3: every file referenced in SKILL.md exists
-    text = read("loop-architect/SKILL.md")
+    text = read("skills/loop-architect/SKILL.md")
     for m in re.finditer(r"`(references/[\w./-]+|assets/[\w./-]+)`", text):
         if not (skill / m.group(1)).exists():
             r.err(f"SKILL.md references '{m.group(1)}' which does not exist")
@@ -124,7 +124,7 @@ def run_repo_check(repo: Path) -> int:
                 r.err(f"{rel(p)} contains {why}")
 
     # Check 5: templates.md is guidance, not a second copy
-    guidance = read("loop-architect/references/templates.md")
+    guidance = read("skills/loop-architect/references/templates.md")
     tpl_dir = skill / "assets/templates"
     if guidance and tpl_dir.exists():
         for tpl in tpl_dir.glob("*.md"):
@@ -135,17 +135,17 @@ def run_repo_check(repo: Path) -> int:
                       f"({hits} lines) — it must be guidance, not a second copy")
 
     # Check 6a (WARN): product notes must be dated, so staleness is visible
-    notes = read("loop-architect/references/product-loop-notes.md")
+    notes = read("skills/loop-architect/references/product-loop-notes.md")
     if notes and "Last verified" not in notes:
         r.warn("product-loop-notes.md has no 'Last verified:' date — tool claims go stale silently")
 
     # Check 6 (WARN): empirical claims in principle files should carry a source
     claim_words = re.compile(r"\b(stud(?:y|ies)|benchmark|survey|percent|\d+\s?%)\b", re.IGNORECASE)
     allow = re.compile(r"\bT[1-6]\b|\bL[0-5]\b")
-    for t in ["loop-architect/references/loop-principles.md",
-              "loop-architect/references/verifier-patterns.md",
-              "loop-architect/references/risk-ladder.md",
-              "loop-architect/references/loop-types.md"]:
+    for t in ["skills/loop-architect/references/loop-principles.md",
+              "skills/loop-architect/references/verifier-patterns.md",
+              "skills/loop-architect/references/risk-ladder.md",
+              "skills/loop-architect/references/loop-types.md"]:
         for i, line in enumerate(read(t).splitlines(), 1):
             if claim_words.search(line) and not allow.search(line):
                 if not ("http" in line or "](" in line or "cited" in line.lower()):
