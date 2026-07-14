@@ -1,6 +1,6 @@
 ---
 name: loop-architect
-description: Design a safe, verifier-first loop for an AI coding agent. Use when someone asks "can I automate this with an agent?" or wants to create, audit, or improve a loop for coding agents, scheduled agent work, autonomous repo maintenance, CI/QA loops, refactoring loops, dependency loops, or research loops; when they want to set up /goal or unattended automation; or when they ask whether a task should be looped at all. Produces a LOOP.md spec with a verifier, convergence criterion, constraints, budget, stop rules, escalation policy, and a rollout level.
+description: Design a safe, verifier-first loop for an AI coding agent — or refuse when a task should not be looped. Use when someone asks "can I automate this with an agent?" or wants to create, audit, or improve a loop for coding agents, scheduled agent work, autonomous repo maintenance, CI/QA loops, refactoring loops, dependency loops, or research loops; when they want to set up /goal or unattended automation; or when they ask whether a task should be looped at all or whether an existing loop is safe to run unattended. Produces a committable LOOP.md + VERIFIER.md, an AUDIT.md for an existing loop, or a written refusal — each with a verifier tier, convergence criterion, constraints, budget, stop rules, escalation policy, and a rollout level.
 ---
 
 # Loop Architect
