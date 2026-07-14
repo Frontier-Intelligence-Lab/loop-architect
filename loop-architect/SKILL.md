@@ -20,6 +20,8 @@ Your job is not to be encouraging. **Your job is to find the verifier, or to ref
 
 Run in order. **Do not skip Step 2.** Ask one or two questions at a time — never dump the whole interview.
 
+**Headless / autonomous use:** when no human is available to answer the interview (a scheduled run, a `/loop` or `/goal` session, CI), do not stall on questions. Answer each one yourself from the task context, always choosing the **more conservative** option; when an answer cannot be derived, assign the **lower verifier tier** and the **lower rollout level**. Record every self-answered question under an `## Assumptions` section in `LOOP.md` so a human can overturn them later.
+
 ### Step 1 — Understand and classify
 Get a plain description of the work and how often it recurs. Classify it against `references/loop-types.md`. **If it matches no known type, say so** — an unnamed loop usually means the verifier hasn't been found yet.
 

@@ -25,7 +25,7 @@ Given a vague idea like *"can I have an agent keep our dependencies updated?"* o
 2. **Find the verifier** — and score it on a 6-tier strength ladder. *This step is a blocking gate.*
 3. **Decide whether it should be looped at all** (verifier strength × blast radius).
 4. **Force the missing answers** — convergence criterion, progress metric, constraints, budget, cadence, stop rules, escalation, state.
-5. **Score the design** — a readiness self-audit out of 28, which sets the rollout ceiling.
+5. **Score the design** — a readiness self-audit out of 29, which sets the rollout ceiling.
 6. **Produce `LOOP.md` and `VERIFIER.md`** you can commit.
 7. **Flag the weak spots honestly** — no real verifier, transcript-only evaluator, agent can edit its own tests, high blast radius.
 8. **Recommend a rollout level** — L0 manual → L5 unattended. Never starts you at the top.
@@ -97,7 +97,7 @@ loop-architect/
     verifier-patterns.md          the verifier strength ladder  ← the core
     loop-types.md                 named loop patterns + safe autonomy for each
     risk-ladder.md                verifier × blast-radius grid; L0–L5 autonomy
-    readiness-checklist.md        scored self-audit (x/28 → a rollout ceiling)
+    readiness-checklist.md        scored self-audit (x/29 → a rollout ceiling)
     examples.md                   worked designs — and two refusals
     product-loop-notes.md         tool-specific cautions (cited)
     loop-principles.md            the reasoning behind the workflow
