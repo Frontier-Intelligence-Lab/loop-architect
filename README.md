@@ -83,14 +83,37 @@ L2. Never auto-merge into CI workflow files.
 
 Pick whichever fits your setup — they all install the same skill.
 
+| Package | Registry | Repo |
+|---|---|---|
+| [`@frontier-intelligence/loop-architect`](https://www.npmjs.com/package/@frontier-intelligence/loop-architect) | npm (public) | [Frontier-Intelligence-Lab/loop-architect](https://github.com/Frontier-Intelligence-Lab/loop-architect) |
+
+Full CLI, tarball contents, versioning, and **maintainer publish steps:** [docs/npm-package.md](docs/npm-package.md).
+
 ### `npx` (branded installer)
+
+Requires **Node.js ≥ 16.7**. Installs the skill payload from the published package into Claude and/or Codex.
 
 ```bash
 npx @frontier-intelligence/loop-architect install --target both
 ```
 
-Installs into Claude and/or Codex. Use `--target claude`, `--target codex`, or `--target both`; add `--force` to overwrite an existing copy. Omit `--target` to auto-detect.
+| Flag | Meaning |
+|---|---|
+| `--target claude` | `~/.claude/skills/loop-architect` (or `$CLAUDE_SKILLS_DIR/loop-architect`) |
+| `--target codex` | `~/.codex/skills/loop-architect` (or `$CODEX_SKILLS_DIR/loop-architect`) |
+| `--target both` | both of the above |
+| `--force` | overwrite an existing install |
+| *(omit `--target`)* | auto-detect `~/.claude` / `~/.codex`; default Claude if neither exists |
+| `--version` / `-v` | print package version |
+| `--help` / `-h` | CLI help |
 
+```bash
+npx @frontier-intelligence/loop-architect install --target claude
+npx @frontier-intelligence/loop-architect install --target codex --force
+npx @frontier-intelligence/loop-architect --version
+```
+
+Restart your agent after install so it reloads skills.
 ### `npx skills` (Claude Code · Codex · Cursor · Copilot · …)
 
 ```bash
@@ -184,6 +207,8 @@ evals/                            5 behavioral scenarios — the anti-softening 
 adapters/                         thin, cited mappings of LOOP.md onto /goal · GitHub Actions · cron · Codex
 ci/                               GitHub Actions workflow, staged (move to .github/workflows/ when public)
 install.sh                        the `curl | sh` one-line installer
+package.json · bin/               npm package `@frontier-intelligence/loop-architect` (installer only)
+docs/npm-package.md               npm install + publish reference
 .claude-plugin/marketplace.json   Claude Code plugin-marketplace manifest (/plugin install)
 ```
 

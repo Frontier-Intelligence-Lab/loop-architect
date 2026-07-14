@@ -17,3 +17,31 @@ Three things are especially welcome:
 ## Structure
 
 Principles change slowly; product details change fast. Please respect that boundary — it's the reason this skill won't rot.
+
+## Publishing the npm package
+
+The public installer is **`@frontier-intelligence/loop-architect`** on the npm registry
+(source: this repo, [Frontier-Intelligence-Lab/loop-architect](https://github.com/Frontier-Intelligence-Lab/loop-architect)).
+
+It is **not** a library — `bin/loop-architect.js` copies `skills/loop-architect/` into
+Claude/Codex skill dirs. Runner, evals, examples, and `tools/` stay git-only.
+
+### One-time setup
+
+1. Own or join the npm scope **`@frontier-intelligence`** (create the org if needed).
+2. Authenticate: `npm login` (or a publish-capable `NPM_TOKEN` in CI).
+3. Confirm: `npm whoami`.
+
+### Every release
+
+```bash
+# bump version in package.json when needed (semver; same version cannot be republished)
+npm pack --dry-run          # must include bin/ + skills/loop-architect/
+npm publish --access public
+npm view @frontier-intelligence/loop-architect version
+```
+
+Prefer publishing from a clean **`main`** commit you intend users to install.
+
+Full checklist, CLI docs, troubleshooting, and how this relates to `npx skills` /
+plugin / `curl` install paths: **[docs/npm-package.md](docs/npm-package.md)**.
