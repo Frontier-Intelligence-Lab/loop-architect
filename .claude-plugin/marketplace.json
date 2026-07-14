@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "frontier-intelligence-lab",
+  "description": "Skills for designing safe, verifier-first AI agent loops.",
+  "version": "0.1.0",
+  "owner": {
+    "name": "Frontier Intelligence Lab"
+  },
+  "plugins": [
+    {
+      "name": "loop-architect",
+      "source": "./",
+      "description": "Verifier-first skill for designing safe AI agent loops — or refusing when a task should not be looped. Produces a LOOP.md + VERIFIER.md, an AUDIT.md for an existing loop, or a reasoned refusal.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Frontier Intelligence Lab"
+      },
+      "homepage": "https://github.com/Frontier-Intelligence-Lab/loop-architect",
+      "repository": "https://github.com/Frontier-Intelligence-Lab/loop-architect",
+      "license": "MIT",
+      "category": "development",
+      "keywords": ["agent-loops", "verifier", "automation", "ai-agents", "safety"],
+      "tags": ["agent-loops", "verifier", "automation", "ai-agents", "safety"],
+      "skills": "./skills"
+    }
+  ]
+}
