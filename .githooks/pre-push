@@ -1,0 +1,8 @@
+#!/bin/sh
+# Block a push if the repo's own loop-checker fails.
+# This is the skill's doctrine applied to itself: enforce in code, not prose.
+# Bypass (discouraged): git push --no-verify
+set -e
+root="$(git rev-parse --show-toplevel)"
+echo "loopcheck: verifying repo before push..."
+python3 "$root/tools/loopcheck.py" "$root"

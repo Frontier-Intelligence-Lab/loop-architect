@@ -1,0 +1,38 @@
+{
+  "name": "@frontier-intelligence/loop-architect",
+  "version": "0.1.0",
+  "description": "One-command installer for the Loop Architect skill — verifier-first design for safe AI agent loops, or a reasoned refusal when a task shouldn't be looped.",
+  "bin": {
+    "loop-architect": "bin/loop-architect.js"
+  },
+  "files": [
+    "bin/",
+    "skills/loop-architect/"
+  ],
+  "engines": {
+    "node": ">=16.7"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "codex",
+    "agent-skills",
+    "loop-architect",
+    "ai-agents",
+    "verifier",
+    "automation"
+  ],
+  "homepage": "https://github.com/Frontier-Intelligence-Lab/loop-architect#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frontier-Intelligence-Lab/loop-architect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Frontier-Intelligence-Lab/loop-architect/issues"
+  },
+  "author": "Frontier Intelligence Lab",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

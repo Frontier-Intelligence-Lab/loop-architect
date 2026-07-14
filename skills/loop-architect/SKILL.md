@@ -1,6 +1,6 @@
 ---
 name: loop-architect
-description: Design a safe, verifier-first loop for an AI coding agent. Use when someone wants to create, audit, or improve a loop for coding agents, scheduled agent work, autonomous repo maintenance, CI/QA loops, refactoring loops, dependency loops, or research loops; when they want to set up /goal or unattended automation; or when they ask whether a task should be looped at all. Produces a LOOP.md spec with a verifier, convergence criterion, constraints, budget, stop rules, escalation policy, and a rollout level.
+description: Design a safe, verifier-first loop for an AI coding agent — or refuse when a task should not be looped. Use when someone asks "can I automate this with an agent?" or wants to create, audit, or improve a loop for coding agents, scheduled agent work, autonomous repo maintenance, CI/QA loops, refactoring loops, dependency loops, or research loops; when they want to set up /goal or unattended automation; or when they ask whether a task should be looped at all or whether an existing loop is safe to run unattended. Produces a committable LOOP.md + VERIFIER.md, an AUDIT.md for an existing loop, or a written refusal — each with a verifier tier, convergence criterion, constraints, budget, stop rules, escalation policy, and a rollout level.
 ---
 
 # Loop Architect
@@ -16,6 +16,18 @@ Your job is not to be encouraging. **Your job is to find the verifier, or to ref
 
 ---
 
+## Modes
+
+Choose the mode from the user's request:
+
+- **Design mode** — create a new loop design from a vague automation idea.
+- **Audit mode** — evaluate an existing `LOOP.md`, workflow, `/goal`, cron job, agent script, or proposed loop. Do not redesign first; score what exists, name blockers, then recommend the smallest upgrade.
+- **Upgrade mode** — improve a weak loop by strengthening its verifier, reducing blast radius, adding state, or lowering rollout level.
+
+When the user asks "is this safe?", "can this run unattended?", "what is missing?", or gives an existing loop spec, use **Audit mode**.
+
+---
+
 ## Workflow
 
 Run in order. **Do not skip Step 2.** Ask one or two questions at a time — never dump the whole interview.
@@ -23,7 +35,7 @@ Run in order. **Do not skip Step 2.** Ask one or two questions at a time — nev
 **Headless / autonomous use:** when no human is available to answer the interview (a scheduled run, a `/loop` or `/goal` session, CI), do not stall on questions. Answer each one yourself from the task context, always choosing the **more conservative** option; when an answer cannot be derived, assign the **lower verifier tier** and the **lower rollout level**. Record every self-answered question under an `## Assumptions` section in `LOOP.md` so a human can overturn them later.
 
 ### Step 1 — Understand and classify
-Get a plain description of the work and how often it recurs. Classify it against `references/loop-types.md`. **If it matches no known type, say so** — an unnamed loop usually means the verifier hasn't been found yet.
+Get a plain description of the work and how often it recurs. In Audit mode, first identify the existing trigger, actor, verifier, permissions, state, and current rollout level. Classify the work against `references/loop-types.md`. **If it matches no known type, say so** — an unnamed loop often means the verifier hasn't been found yet.
 
 ### Step 2 — ✋ THE GATE: find the verifier (blocking)
 
@@ -51,7 +63,7 @@ Score the answer on the ladder in `references/verifier-patterns.md`:
 
 > **"Can the agent modify the thing that checks it?"**
 
-If the test files, the rubric, the CI config, or its own permissions are writable by the agent — **fix that before anything else.** The agent takes the cheapest path to green, and deleting the test is often the cheapest path. **Enforce immutability at the permission layer, not in the prompt.** *(Stronger models do this more, not less.)*
+If the test files, the rubric, the CI config, or its own permissions are writable by the agent — **fix that before anything else.** The agent takes the cheapest path to green, and deleting the test is often the cheapest path. **Enforce immutability at the permission layer, not in the prompt.** More capable models may find shortcuts more reliably when the verifier is writable or underspecified.
 
 ### Step 3 — Decide whether to loop at all
 
@@ -75,19 +87,19 @@ A loop is a control system. Get all of these. An unanswered one is a named failu
 | **Verifier** (Step 2) | the loop rubber-stamps itself |
 | **Progress metric** — how do we know it's getting *closer*? | can't tell slow progress from oscillation |
 | **Constraints** — scope, denylist, immutables, invariants | over-reach; the agent edits its own checker |
-| **Budget** — time, iterations, spend, fan-out | a bug spins all night and arrives as a bill |
+| **Budget** — time, iterations, spend, fan-out; **enforced in the runner, not the prompt** | a bug spins all night and arrives as a bill |
 | **Cadence** — when does it wake? | it's a script you ran once, not a loop |
-| **Stop rules** — success, exhaustion, **no-progress**, escalation | infinite fix loop |
+| **Stop rules** — success, exhaustion, **no-progress**, escalation; plus a **kill switch the agent can't reach** | infinite fix loop |
 | **Non-convergence policy** — revert? best-effort? escalate? | it improvises, and you won't like it |
 | **State** — what persists on disk between runs? | amnesia; it re-does yesterday's work |
 | **Escalation** — who gets woken, and how? | it gets stuck and nobody is told |
 | **Latency-to-detection** — how far can a mistake travel before a human sees it? | the master metric |
 
 ### Step 5 — Score it
-Run `references/readiness-checklist.md`. Report the **score, the blockers, and the ceiling** — plainly. Blast radius caps the ceiling regardless of score.
+Run `references/readiness-checklist.md`. Report the **score, the blockers, and the ceiling** — plainly. Blast radius caps the ceiling regardless of score. In Audit mode, score the loop as-is before proposing upgrades.
 
 ### Step 6 — Produce the artifacts
-Write **`LOOP.md`** and **`VERIFIER.md`** (always). Add `STATE.md`, `BUDGET.md`, `ESCALATION.md` when the loop warrants them. Templates: `assets/templates/`. Guidance: `references/templates.md`.
+If you refused in Step 2 or Step 3, **stop here**: the deliverable is the written refusal plus what you'd build instead (a drafter or report-only loop) — not a `LOOP.md`. Otherwise, in Design or Upgrade mode, write **`LOOP.md`** and **`VERIFIER.md`** (always for a design). Add `STATE.md`, `BUDGET.md`, `ESCALATION.md` when the loop warrants them. In Audit mode, produce **`AUDIT.md`** first: verdict, readiness score, rollout ceiling, blockers, weak spots, and minimal next changes. Templates: `assets/templates/`. Guidance: `references/templates.md`.
 
 ### Step 7 — Mark the weak spots honestly
 Do not soften these. Flag, where true:
@@ -137,11 +149,13 @@ Some tools implement a loop as a *worker model* plus an *evaluator model that re
 ## References
 
 - `references/verifier-patterns.md` — the verifier strength ladder **(read first)**
+- `references/verifier-catalog.md` — recipes for each verifier type (property, mutation, metamorphic, differential, canary, held-out, ...), with its tier and blind spot
 - `references/loop-types.md` — named loop patterns, with the verifier and safe autonomy for each
 - `references/risk-ladder.md` — verifier × blast-radius grid; the L0–L5 autonomy ladder
 - `references/readiness-checklist.md` — the scored self-audit
 - `references/examples.md` — worked designs **and two refusals**
 - `references/product-loop-notes.md` — tool-specific cautions (cited)
+- `references/evidence.md` — citation hygiene and claims that need verification
 - `references/loop-principles.md` — the reasoning behind the workflow
 - `references/templates.md` — how to fill the outputs
-- `assets/templates/` — `LOOP.md`, `VERIFIER.md`, `STATE.md`, `BUDGET.md`, `ESCALATION.md`
+- `assets/templates/` — `AUDIT.md`, `LOOP.md`, `VERIFIER.md`, `STATE.md`, `BUDGET.md`, `ESCALATION.md`

@@ -1,0 +1,1 @@
+protected — the verifier/oracle. The runner must never let a worker edit this.
