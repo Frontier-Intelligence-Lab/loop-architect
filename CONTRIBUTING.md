@@ -10,8 +10,8 @@ Three things are especially welcome:
 
 ## Ground rules
 
-- **Keep principles tool-agnostic.** Anything specific to a product, model, or version belongs in `references/product-loop-notes.md` — with a citation, so it can be checked when it goes stale.
-- **Cite claims.** No invented statistics. If it's unverified, say so.
+- **Keep principles tool-agnostic.** Anything specific to a product, model, or version belongs in `references/product-loop-notes.md` — with a citation and verification date, so it can be checked when it goes stale.
+- **Cite claims.** No invented statistics. If it's unverified, say so. Use `references/evidence.md` for claim labels and citation hygiene.
 - **Be pessimistic about verifiers.** When in doubt, assign the lower tier.
 
 ## Structure

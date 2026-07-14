@@ -4,11 +4,24 @@
 
 | File | Produce it when | Purpose |
 |---|---|---|
-| `LOOP.md` | **Always** | The design. The one artifact that must exist. |
-| `VERIFIER.md` | **Always** | The thing that can say no — and proof the agent can't reach it. |
+| `AUDIT.md` | Auditing an existing loop | The verdict, blockers, readiness score, and minimal upgrades. |
+| `LOOP.md` | Design or upgrade mode | The design. The artifact to commit before a loop runs. |
+| `VERIFIER.md` | Design or upgrade mode | The thing that can say no — and proof the agent can't reach it. |
 | `STATE.md` | The loop runs more than once | Memory on disk. |
 | `BUDGET.md` | The loop runs unattended or fans out | Circuit breakers and the kill switch. |
 | `ESCALATION.md` | The loop can act (L3+) | Who gets woken, and when. |
+
+---
+
+## AUDIT.md — the current-state verdict
+
+Fill this before redesigning an existing loop. Users need to know whether the loop they already have is safe, not just what a perfect one would look like.
+
+**Score the current loop as-is.** Do not give credit for controls you plan to add.
+
+**Name the rollout ceiling.** The ceiling is the highest safe autonomy level right now. Missing hard blockers, high blast radius, and weak verifier tiers cap the ceiling even when the prose sounds mature.
+
+**Minimal upgrades beat ideal rewrites.** End with the smallest changes that remove the top blocker: make tests read-only, move the gate to CI, add a no-progress detector, lower rollout from L4 to L2, or add a named escalation owner.
 
 ---
 

@@ -26,9 +26,11 @@ Given a vague idea like *"can I have an agent keep our dependencies updated?"* o
 3. **Decide whether it should be looped at all** (verifier strength × blast radius).
 4. **Force the missing answers** — convergence criterion, progress metric, constraints, budget, cadence, stop rules, escalation, state.
 5. **Score the design** — a readiness self-audit out of 29, which sets the rollout ceiling.
-6. **Produce `LOOP.md` and `VERIFIER.md`** you can commit.
+6. **Produce `LOOP.md` and `VERIFIER.md`** you can commit — or `AUDIT.md` for existing loops.
 7. **Flag the weak spots honestly** — no real verifier, transcript-only evaluator, agent can edit its own tests, high blast radius.
 8. **Recommend a rollout level** — L0 manual → L5 unattended. Never starts you at the top.
+
+It also has an **audit mode** for existing loops: give it a `LOOP.md`, `/goal`, cron worker, agent script, or proposed automation and it will score the current design before suggesting changes.
 
 ## What makes it different
 
@@ -79,11 +81,47 @@ L2. Never auto-merge into CI workflow files.
 
 ## Install
 
-**Claude Code / Cowork** — copy the `loop-architect/` folder into your skills directory (e.g. `~/.claude/skills/`), or install through your client's skill settings.
+Clone this repo, then copy the skill folder into your agent's skills directory.
 
-**Codex** — copy `loop-architect/` into your skills path; `agents/openai.yaml` supplies the display metadata.
+```bash
+git clone https://github.com/Frontier-Intelligence-Lab/loop-architect.git
+```
+
+**Claude Code / Cowork**
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R loop-architect/loop-architect ~/.claude/skills/
+```
+
+Or install through your client's skill settings if it provides a skill picker.
+
+**Codex**
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R loop-architect/loop-architect ~/.codex/skills/
+```
+
+`agents/openai.yaml` supplies the display metadata.
 
 **Any harness** — the skill is plain markdown. Point your agent at `loop-architect/SKILL.md`.
+
+## Smoke test
+
+After installing, start a fresh agent session and try these three prompts:
+
+```text
+Use loop-architect to design a loop that keeps our dependencies current.
+Use loop-architect to audit this loop: a cron job asks an agent to fix prod alerts and restart services if the alert clears.
+Use loop-architect to turn "make our UI better every night" into a safe workflow.
+```
+
+Expected behavior:
+
+- The dependency loop becomes a draft-PR design with CI, cooldown, provenance, and no auto-merge.
+- The prod-alert loop is refused as autonomous write-action and downgraded to read-only incident support or narrow pre-authorized runbooks.
+- The UI request is refused as a subjective loop and reframed as a bounded variant generator unless an objective verifier exists.
 
 ---
 
@@ -101,10 +139,11 @@ loop-architect/                   THE SKILL (this is what you install)
     readiness-checklist.md        scored self-audit (x/29 → a rollout ceiling)
     examples.md                   worked designs — and two refusals
     product-loop-notes.md         tool-specific cautions (cited, dated)
+    evidence.md                   citation hygiene + claims to verify
     loop-principles.md            the reasoning behind the workflow
     templates.md                  how to fill the outputs
   assets/templates/
-    LOOP.md  VERIFIER.md  STATE.md  BUDGET.md  ESCALATION.md
+    AUDIT.md  LOOP.md  VERIFIER.md  STATE.md  BUDGET.md  ESCALATION.md
 
 tools/loopcheck.py                deterministic checker — repo self-check AND `spec` mode for your LOOP.md
 Makefile                          `make check` (run loopcheck) · `make hooks` (install pre-push gate)

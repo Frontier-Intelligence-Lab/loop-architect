@@ -1,6 +1,15 @@
 # Worked Examples
 
-Three designs and two refusals. Study the refusals — they are the point.
+Four designs and two refusals. Study the refusals — they are the point.
+
+## Contents
+
+- Example 1 — Flaky-test loop
+- Example 2 — Dependency-update loop
+- Example 3 — `/goal`-driven refactor
+- Example 4 — Content QA loop
+- Refusal 1 — "Make the UI better"
+- Refusal 2 — "Auto-fix production incidents"
 
 ---
 
@@ -53,7 +62,7 @@ L3. Promote to L4 when the verifier has correctly rejected >=1 misclassification
 
 **The gate.** *"What proves the bump is safe?"* → *"Build + full test suite in CI."* **T1.** Proceed.
 
-**But name the blind spot:** a green suite **does not detect a malicious package.** That's not a hypothetical — auto-merging bot-opened dependency PRs on a green build is a documented supply-chain risk, not a theoretical one.
+**But name the blind spot:** a green suite **does not detect a malicious package.** Do not make supply-chain trust depend on test pass/fail alone.
 
 **Design decision:** the verifier is strong, the blast radius is high → 🟡 **gate the action.**
 
@@ -111,6 +120,42 @@ Never let the transcript judge be the merge gate.
 
 ---
 
+## ✅ Example 4 — Content QA loop (useful, but not a truth machine)
+
+**User asks:** *"Can an agent keep our docs and knowledge base clean every week?"*
+
+**The gate.** *"What proves an edit is correct?"* → *"Links pass, docs build, frontmatter matches schema, stale pages are flagged if they reference APIs removed from the OpenAPI spec."*
+**Verifier: T2.** Deterministic but partial. Proceed as a draft loop, not an unattended truth editor.
+
+```markdown
+# Loop: content-qa
+Owner: @maya   Type: Content QA loop   Rollout: L2 (draft PR)
+
+## Goal (SMVA)
+Find broken links, invalid frontmatter, stale API references, and missing owner metadata in docs.
+
+## Convergence criterion
+`npm run docs:check` exits 0 and every stale-reference finding is either linked to a draft PR or marked "needs human fact check."
+
+## Verifier
+Docs build + link checker + OpenAPI reference check — T2.
+Blind spot: factual correctness of prose and product positioning.
+
+## Non-goals
+- NEVER invent facts or rewrite product claims without a source
+- NEVER publish directly
+- NEVER delete pages without owner approval
+
+## Progress metric
+Open docs findings count. Must decrease each run.
+
+## Weak spots
+⚠️ The checker can prove format and references, not truth.
+   → uncertain claims are escalated to the page owner.
+```
+
+---
+
 ## 🔴 Refusal 1 — "Make the UI better"
 
 **User asks:** *"Can I loop an agent to improve our UI until it looks good?"*
@@ -135,7 +180,7 @@ Never let the transcript judge be the merge gate.
 **The gate.** *"What proves the fix worked?"* → *"The alert clears."*
 That sounds like a verifier. **It isn't.** The alert clearing proves the *symptom* stopped — not that the cause was fixed, and not that nothing else broke. Restarting a service clears the alert too.
 
-**Verifier: T6 for correctness.** **Blast radius: maximal** — the system is already degraded, the safety margin is already spent, and there may be no rollback. Agents perform poorly on end-to-end incident-response benchmarks.
+**Verifier: T6 for correctness.** **Blast radius: maximal** — the system is already degraded, the safety margin is already spent, and there may be no rollback. Treat any incident-response benchmark number as tool- and benchmark-specific; cite it before using it publicly.
 
 **Grid position: 🔴 weak verifier + high blast radius → DO NOT LOOP.**
 
@@ -147,7 +192,7 @@ That sounds like a verifier. **It isn't.** The alert clearing proves the *sympto
 
 ---
 
-## The pattern in all five
+## The pattern in all six
 
 Every one turned on the same question, asked first:
 
