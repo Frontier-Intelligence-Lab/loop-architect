@@ -81,7 +81,15 @@ L2. Never auto-merge into CI workflow files.
 
 ## Install
 
-Pick whichever fits your setup — all three install the same skill.
+Pick whichever fits your setup — they all install the same skill.
+
+### `npx` (branded installer)
+
+```bash
+npx @frontier-intelligence/loop-architect install --target both
+```
+
+Installs into Claude and/or Codex. Use `--target claude`, `--target codex`, or `--target both`; add `--force` to overwrite an existing copy. Omit `--target` to auto-detect.
 
 ### `npx skills` (Claude Code · Codex · Cursor · Copilot · …)
 
