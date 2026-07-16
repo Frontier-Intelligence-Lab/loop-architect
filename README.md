@@ -2,6 +2,8 @@
 
 **A skill for turning vague agent-automation ideas into safe, verifier-first loop designs — or a clear, reasoned *no*.**
 
+Most tools help you *build* an agent loop. Loop Architect starts one step earlier: it finds the thing that can prove the agent is right, sets the stop rules and blast radius, and **refuses when there's no honest way to check the work** — or **audits a loop you already run** (*"is this safe to run unattended?"*).
+
 Works with Claude Code, Codex, and any agent harness that supports skills.
 
 ---
@@ -14,6 +16,8 @@ Everyone wants to put a coding agent in a loop and let it work while they sleep.
 > **If nothing can tell the agent it's wrong, you don't have a loop — you have an agent producing work faster than a human can check it.**
 
 Most loop advice tells you *how* to build one. This skill's most valuable output is often telling you **not to**.
+
+The field has converged on the reason: the bottleneck is no longer generating the work — it's **verifying** it, and an agent that grades its own work can't be trusted to (it will delete the failing test or narrate a success it didn't achieve). Loop Architect is built around that single fact: **find the verifier first, or don't loop.**
 
 ---
 
